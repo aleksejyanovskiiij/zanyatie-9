@@ -58,7 +58,7 @@ void print_flight(const flight& f) {
         case TRANSIT:  std::cout << "транзит"; break;
         case COUPLING: std::cout << "стыковка"; break;
     }
-    std::cout << '\n\n'; 
+    std::cout << '\n'; 
 }
 
 void print_flight_by_destination(flight* arr, int len, const char *dest) {
