@@ -1,0 +1,4 @@
+/justfile
+/main
+/main_*.cpp
+/.vscode
