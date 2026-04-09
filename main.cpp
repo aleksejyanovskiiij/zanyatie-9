@@ -32,7 +32,7 @@ void save_to_file(flight* arr, int size, const char* filename) {
     file.close();
 }
 
-void load_from_file(flight* arr, int size, const char* filename) {
+void load_from_file(flight* arr, const char* filename) {
     std::ifstream file(filename, std::ios::binary);
     if (!file) {
         std::cerr << "Файл не найден, создан новый массив" << '\n';
@@ -160,10 +160,8 @@ int main() {
     flight flights[FLIGHTS_COUNT];
     load_from_file(flights, FLIGHTS_COUNT, "flights.txt");
 
-    bool file_exists = true;
     std::ifstream test("flights.txt", std::ios::binary);
     if (!test) {
-        file_exists = false;
         flight default_flights[20] = {
             {"москваград",    "08:00", "10:30", 150, 5000, TRANSIT},
             {"санктград",     "12:00", "14:00", 120, 4500, CHARTER},
