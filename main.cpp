@@ -158,7 +158,7 @@ void wrapper_print(flight* arr, int len, const char* filter_name) {
 int main() {
     const int CHARTERS_TO_PRINT = 5;
     flight flights[FLIGHTS_COUNT];
-    load_from_file(flights, FLIGHTS_COUNT, "flights.txt");
+    load_from_file(flights, "flights.txt");
 
     std::ifstream test("flights.txt", std::ios::binary);
     if (!test) {
