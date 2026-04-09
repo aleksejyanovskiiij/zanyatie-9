@@ -122,8 +122,7 @@ void filter_connection_n(flight* src, int src_len, flight* dest, int &dest_len, 
     }
 }
 
-void wrapper_print(flight* arr, int len, const char *filter_name)
-{
+void wrapper_print(flight* arr, int len, const char *filter_name) {
     std::cout << "отфильтрованные данные: " << filter_name << '\n';
     if (len == 0) {
         std::cout << "нет данных" << '\n';
