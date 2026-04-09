@@ -20,7 +20,6 @@ struct flight {
 };
 
 void filter_flights(flight* source, int source_size, flight* dest, int &dest_size) {
-    assert(source_size == dest_size);
     dest_size = 0;
     for (int i = 0; i < source_size; i++) {
         int len = strlen(source[i].destination);
