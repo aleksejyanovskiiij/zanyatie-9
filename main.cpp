@@ -25,7 +25,7 @@ const int FLIGHTS_COUNT = 20;
 void save_to_file(flight* arr, int size, const char* filename) {
     std::ofstream file(filename, std::ios::binary);
     if (!file) {
-        std::cerr << "Ошибка открытия файла для записи" << '\n';
+        std::cerr << "ошибка открытия файла для записи" << '\n';
         return;
     }
     file.write(reinterpret_cast<char*>(arr), size*sizeof(flight));
@@ -35,7 +35,7 @@ void save_to_file(flight* arr, int size, const char* filename) {
 void load_from_file(flight* arr, const char* filename) {
     std::ifstream file(filename, std::ios::binary);
     if (!file) {
-        std::cerr << "Файл не найден, создан новый массив" << '\n';
+        std::cerr << "файл не найден, создан новый массив" << '\n';
         return;
     }
     file.read(reinterpret_cast<char*>(arr), FLIGHTS_COUNT*sizeof(flight));
