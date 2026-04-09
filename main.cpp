@@ -3,6 +3,7 @@
 #include <cstring>
 #include <algorithm>
 #include <cassert>
+#include <fstream>
 
 enum flight_type {
     CHARTER,
@@ -19,7 +20,30 @@ struct flight {
     flight_type type;
 };
 
-void filter_flights(flight* source, int source_size, flight* dest, int &dest_size) {
+const int FLIGHTS_COUNT = 20;
+
+void save_to_file(flight* arr, int size, const char* filename) {
+    std::ofstream file(filename, std::ios::binary);
+    if (!file) {
+        std::cerr << "Ошибка открытия файла для записи" << '\n';
+        return;
+    }
+    file.write(reinterpret_cast<char*>(arr), size*sizeof(flight));
+    file.close();
+}
+
+void load_from_file(flight* arr, int& size, const char* filename) {
+    std::ifstream file(filename, std::ios::binary);
+    if (!file) {
+        std::cerr << "Файл не найден, создан новый массив" << '\n';
+        return;
+    }
+    file.read(reinterpret_cast<char*>(arr), FLIGHTS_COUNT*sizeof(flight));
+    size = FLIGHTS_COUNT;
+    file.close();
+}
+
+void filter_flights(flight* source, int source_size, flight* dest, int& dest_size) {
     dest_size = 0;
     for (int i = 0; i < source_size; i++) {
         int len = strlen(source[i].destination);
@@ -34,7 +58,7 @@ void filter_flights(flight* source, int source_size, flight* dest, int &dest_siz
     }
 }
 
-void sort_by_duration(flight arr[], int size) {
+void sort_by_duration(flight* arr, int size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (arr[j].flight_duration > arr[j + 1].flight_duration) {
@@ -61,7 +85,7 @@ void print_flight(const flight& f) {
     std::cout << '\n'; 
 }
 
-void print_flight_by_destination(flight* arr, int len, const char *dest) {
+void print_flight_by_destination(flight* arr, int len, const char* dest) {
     for (int i = 0; i < len; i++) {
         if (strcmp(arr[i].destination, dest) == 0) {
             print_flight(arr[i]);
@@ -86,7 +110,7 @@ void print_night_charter(flight* arr, int len, int count_to_print) {
     if (count == 0) std::cout << "ночных чартерных рейсов не найдено" << '\n';
 }
 
-void update_flight(flight* arr, int len, const char *dest) {
+void update_flight(flight* arr, int len, const char* dest) {
     for (int i = 0; i < len; i++) {
         if (strcmp(arr[i].destination, dest) == 0) {
             std::cout << "введите новые данные для рейса " << dest << ":" << '\n';
@@ -111,7 +135,7 @@ void update_flight(flight* arr, int len, const char *dest) {
     std::cout << "рейс не найден" << '\n';
 }
 
-void filter_connection_n(flight* src, int src_len, flight* dest, int &dest_len, int n) {
+void filter_connection_n(flight* src, int src_len, flight* dest, int& dest_len, int n) {
     dest_len = 0;
     for (int i = 0; i < src_len; i++) {
         if (src[i].type == COUPLING && src[i].ticket_price < n) {
@@ -121,7 +145,7 @@ void filter_connection_n(flight* src, int src_len, flight* dest, int &dest_len, 
     }
 }
 
-void wrapper_print(flight* arr, int len, const char *filter_name) {
+void wrapper_print(flight* arr, int len, const char* filter_name) {
     std::cout << "отфильтрованные данные: " << filter_name << '\n';
     if (len == 0) {
         std::cout << "нет данных" << '\n';
@@ -133,7 +157,6 @@ void wrapper_print(flight* arr, int len, const char *filter_name) {
 }
 
 int main() {
-    const int FLIGHTS_COUNT = 20;
     const int CHARTERS_TO_PRINT = 5;
     flight flights[FLIGHTS_COUNT] = {
         {"москваград",    "08:00", "10:30", 150, 5000, TRANSIT },
